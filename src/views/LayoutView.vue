@@ -5,6 +5,7 @@
                 <a href="/" class="text-lg px-2 block my-1 text-slate-800">Главная</a>
                 <a href="/profile" class="text-lg px-2 block my-1 text-slate-800">Профиль</a>
                 <a href="/friends" class="text-lg px-2 block my-1 text-slate-800">Друзья</a>
+                <div @click="logout" class="text-lg px-2 block my-1 text-slate-800 cursor-pointer" v-if="sessionName">Выйти</div>
             </div>
             <div class="col-content rounded-lg p-4 drop-shadow-xl">
                 <slot></slot>
@@ -14,9 +15,21 @@
 </template>
 
 <script>
-
 export default {
     name: 'LayoutView',
+
+    data() {
+        return {
+            sessionName: localStorage.name
+        }
+    },
+
+    methods: {
+        logout() {
+            localStorage.clear();
+            this.$route.push('/login')
+        }
+    }
 }
 </script>
 

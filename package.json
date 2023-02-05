@@ -13,7 +13,8 @@
     "vue-axios": "^3.5.2",
     "vue-router": "^3.5.1",
     "vue-tailwind": "^2.5.1",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -21,6 +22,7 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.13",
     "axios": "^0.18.1",

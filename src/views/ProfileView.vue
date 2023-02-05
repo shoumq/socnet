@@ -1,20 +1,29 @@
 <template>
     <LayoutView>
         <div class="flex gap-6 border-4 border-transparent border-b-indigo-500 pb-5">
-            <img src="https://avatars.mds.yandex.net/i?id=c99452f0c94a3d262f69c61f7c54780b4d232925-5268868-images-thumbs&n=13" alt=""
-                class="rounded-lg w-40 h-40 avatar drop-shadow-lg">
+            <img src="https://avatars.mds.yandex.net/i?id=c99452f0c94a3d262f69c61f7c54780b4d232925-5268868-images-thumbs&n=13"
+                alt="" class="rounded-lg w-40 h-40 avatar drop-shadow-lg">
             <div class="flex flex-col place-content-between">
                 <div>
                     <p class="text-2xl mb-1">{{ userData.name }}</p>
-                    <p class="text-base">@{{ userData.username }}</p>
+                    <p class="text-base">@{{ userData.login }}</p>
                     <p class="text-base">Email: {{ userData.email }}</p>
-                    <p class="text-base">Телефон: {{ userData.phone }}</p>
+                    <p class="text-base">Компания: {{ userData.company }}</p>
                 </div>
                 <div>
-                    <a href="#" class="outline outline-2 outline-offset-2 outline-indigo-500
+                    <a href="#ex1" rel="modal:open" class="outline outline-2 outline-offset-2 outline-indigo-500
                                 cursor-pointer bg-indigo-500 rounded-lg py-2 px-4 text-white 
                                 duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
-                        style="position: relative;top: -0.5rem;">Редактировать</a>
+                        style="position: relative;top: -0.5rem;">Подробнее</a>
+
+                    <div id="ex1" class="modal">
+                        <p class="text-xl mb-2">Имя: {{ userData.name }}</p>
+                        <p class="text-xl mb-2">Логин: @{{ userData.login }}</p>
+                        <p class="text-xl mb-2">Email: {{ userData.email }}</p>
+                        <p class="text-xl mb-2">Компания: {{ userData.company }}</p>
+                        <p class="text-xl mb-2">Город: {{ userData.city }}</p>
+                        <p class="text-xl mb-2">Сайт: {{ userData.website }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,9 +57,27 @@ export default {
 
     methods: {
         getUserData() {
-            this.axios.get("http://jsonplaceholder.typicode.com/users/7")
-                .then(response => {
-                    this.userData = response.data;
+            // this.axios.get("http://jsonplaceholder.typicode.com/users/7")
+            //     .then(response => {
+            //         this.userData = response.data;
+            //     })
+
+            this.axios.get('https://api.npoint.io/9d126a3d30e113401f4a')
+                .then((response) => {
+                    let users = response.data;
+                    let found = false;
+
+                    for (let i in users) {
+                        if (users[i].login == localStorage.login) {
+                            found = true;
+                            this.userData = response.data[i];
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        this.$router.push('/login');
+                    }
                 })
         },
 
@@ -59,7 +86,7 @@ export default {
                 .then(response => {
                     this.userPosts = response.data;
                 })
-        }
+        },
     },
 
     mounted() {

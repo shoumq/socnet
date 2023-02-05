@@ -12,6 +12,10 @@ export default {
 
     components: {
         LayoutView
+    },
+
+    mounted() {
+        console.log(localStorage)
     }
 }
 </script>

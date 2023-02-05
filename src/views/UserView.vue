@@ -14,7 +14,7 @@
                     <a href="#" class="outline outline-2 outline-offset-2 outline-indigo-500
                                 cursor-pointer bg-indigo-500 rounded-lg py-2 px-4 text-white 
                                 duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
-                        style="position: relative;top: -0.5rem;">Добавить в друзья</a>
+                        style="position: relative; top: -0.5rem;">Добавить в друзья</a>
                 </div>
             </div>
         </div>
@@ -24,6 +24,7 @@
             <div v-for="(item, index) in userPosts" :key="index" class="mb-5 w-9/12">
                 <p class="text-xl">{{ item.title }}</p>
                 <p class="text-base">{{ item.body }}</p>
+                {{ allPosts }}
             </div>
         </div>
     </LayoutView>
@@ -62,17 +63,17 @@ export default {
         }
     },
 
+    mounted() {
+        this.getUserData();
+        this.getUserPosts();
+    },
+
     watch: {
         $route() {
             this.getUserData();
             this.getUserPosts();
         }
     },
-
-    mounted() {
-        this.getUserData();
-        this.getUserPosts();
-    }
 }
 </script>
 

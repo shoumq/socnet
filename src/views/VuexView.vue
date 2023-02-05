@@ -1,6 +1,6 @@
 <template>
     <LayoutView>
-        <p class="text-2xl mb-6">Все люди ({{ countUsers }})</p>
+        <p class="text-2xl mb-6">Все люди</p>
         <div class="friend-grid">
             <router-link :to="'/user/' + item.id" class="friend-grid__item drop-shadow-lg px-4 py-2 outline outline-2 
             outline-offset-2 outline-indigo-500 rounded" v-for="(item, index) in allUsers" :key="index">
@@ -28,7 +28,7 @@ export default {
         }
     },
 
-    computed: mapGetters(['allUsers', 'countUsers']),
+    computed: mapGetters(['allUsers']),
     methods: mapActions(['getUsersData']),
 
     mounted() {
