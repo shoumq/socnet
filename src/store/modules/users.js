@@ -5,7 +5,7 @@ export default {
                 'http://jsonplaceholder.typicode.com/users'
             )
             const users = await res.json();
-            ctx.commit('UPDATE_USERS', users)
+            ctx.commit('UPDATE_USERS', users);
         }
     },
     state: {
@@ -13,16 +13,16 @@ export default {
     },
     mutations: {
         UPDATE_USERS(state, users) {
-            state.users = users
+            state.users = users;
         }
     },
     getters: {
         allUsers(state) {
-            return state.users
+            return state.users;
         },
 
         countUsers(state) {
-            return state.users.length
+            return state.users.length;
         }
     },
 }

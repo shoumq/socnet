@@ -30,7 +30,7 @@
 
         <div class="text-2xl mt-7 mb-6">Записи</div>
         <div class="flex flex-col">
-            <div v-for="(item, index) in userPosts" :key="index" class="mb-5 w-9/12">
+            <div v-for="(item, index) in allProfilePosts" :key="index" class="mb-5 w-9/12">
                 <p class="text-xl">{{ item.title }}</p>
                 <p class="text-base">{{ item.body }}</p>
             </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import LayoutView from './LayoutView.vue';
 
 export default {
@@ -57,11 +58,6 @@ export default {
 
     methods: {
         getUserData() {
-            // this.axios.get("http://jsonplaceholder.typicode.com/users/7")
-            //     .then(response => {
-            //         this.userData = response.data;
-            //     })
-
             this.axios.get('https://api.npoint.io/9d126a3d30e113401f4a')
                 .then((response) => {
                     let users = response.data;
@@ -71,6 +67,7 @@ export default {
                         if (users[i].login == localStorage.login) {
                             found = true;
                             this.userData = response.data[i];
+                            document.title = response.data[i].name;
                             break;
                         }
                     }
@@ -80,18 +77,14 @@ export default {
                     }
                 })
         },
-
-        getUserPosts() {
-            this.axios.get("http://jsonplaceholder.typicode.com/posts?userId=7")
-                .then(response => {
-                    this.userPosts = response.data;
-                })
-        },
+        ...mapActions(['getProfilePosts'])
     },
+
+    computed: mapGetters(['allProfilePosts']),
 
     mounted() {
         this.getUserData();
-        this.getUserPosts();
+        this.getProfilePosts();
     }
 }
 </script>

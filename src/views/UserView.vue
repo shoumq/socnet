@@ -10,18 +10,12 @@
                     <p class="text-base">Email: {{ userData.email }}</p>
                     <p class="text-base">Телефон: {{ userData.phone }}</p>
                 </div>
-                <div>
-                    <a href="#" class="outline outline-2 outline-offset-2 outline-indigo-500
-                                cursor-pointer bg-indigo-500 rounded-lg py-2 px-4 text-white 
-                                duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
-                        style="position: relative; top: -0.5rem;">Добавить в друзья</a>
-                </div>
             </div>
         </div>
 
         <div class="text-2xl mt-7 mb-6">Записи</div>
         <div class="flex flex-col">
-            <div v-for="(item, index) in userPosts" :key="index" class="mb-5 w-9/12">
+            <div v-for="(item, index) in allUserPosts" :key="index" class="mb-5 w-9/12">
                 <p class="text-xl">{{ item.title }}</p>
                 <p class="text-base">{{ item.body }}</p>
                 {{ allPosts }}
@@ -31,6 +25,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import LayoutView from './LayoutView.vue';
 
 export default {
@@ -43,7 +38,8 @@ export default {
     data() {
         return {
             userData: [],
-            userPosts: []
+            userPosts: [],
+            userName: ''
         }
     },
 
@@ -52,26 +48,24 @@ export default {
             this.axios.get("http://jsonplaceholder.typicode.com/users/" + this.$route.params.id)
                 .then(response => {
                     this.userData = response.data;
+                    document.title = response.data.name;
                 })
         },
 
-        getUserPosts() {
-            this.axios.get("http://jsonplaceholder.typicode.com/posts?userId=" + this.$route.params.id)
-                .then(response => {
-                    this.userPosts = response.data;
-                })
-        }
+        ...mapActions(['getUserPosts'])
     },
 
+    computed: mapGetters(['allUserPosts']),
+
     mounted() {
+        this.getUserPosts(this.$route.params.id);
         this.getUserData();
-        this.getUserPosts();
     },
 
     watch: {
         $route() {
+            this.getUserPosts(this.$route.params.id);
             this.getUserData();
-            this.getUserPosts();
         }
     },
 }
