@@ -7,7 +7,7 @@
                 <div>
                     <p class="text-2xl mb-1">{{ userData.name }}</p>
                     <p class="text-base">@{{ userData.login }}</p>
-                    <p class="text-base">Email: {{ userData.email }}</p>
+                    <p class="text-base mob-none">Email: {{ userData.email }}</p>
                     <p class="text-base">Компания: {{ userData.company }}</p>
                 </div>
 

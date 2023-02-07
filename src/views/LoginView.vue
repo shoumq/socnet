@@ -3,24 +3,29 @@
         <p class="text-2xl text-center">Авторизация</p>
 
         <div class="mt-10 text-center">
-            <div class="w-full">
+            <form v-on:submit.prevent="authFun" class="w-full">
                 <label class="block mb-5">
-                    <input v-model="login" type="text" placeholder="Логин" />
+                    <input v-model="login" type="text" placeholder="Логин"
+                        :class="{ 'border-2': flAuth, 'border-rose-500': flAuth }" />
                 </label>
 
                 <label class="block">
-                    <input v-model="password" type="password" placeholder="Пароль" />
+                    <input v-model="password" type="password" placeholder="Пароль"
+                        :class="{ 'border-2': flAuth, 'border-rose-500': flAuth }" />
                 </label>
 
+                <p class="text-rose-500 text-lg mt-3 font-medium" :class="{ 'd-none-i': flAuth, 'd-n': !flAuth }">Пользователь не
+                    найден!</p>
 
-                <button @click="authFun" class="outline outline-2 outline-offset-2 outline-indigo-500
+
+                <button class="outline outline-2 outline-offset-2 outline-indigo-500
                                 cursor-pointer bg-indigo-500 rounded-lg py-1 px-10 text-white 
                                 duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
                     style="position: relative;top: 2rem;">Войти</button>
 
                 <a href="/reg" class="select-none drop-shadow-xl block mt-4" style="position: relative;top: 2rem;">Еще
                     нет аккаунта?</a>
-            </div>
+            </form>
         </div>
     </LayoutView>
 </template>
@@ -40,6 +45,7 @@ export default {
         return {
             login: '',
             password: '',
+            flAuth: false
         }
     },
 
@@ -68,7 +74,9 @@ export default {
                     }
 
                     if (!found) {
-                        window.alert('Пользователь не найден');
+                        this.flAuth = true;
+                        this.login = '';
+                        this.password = ''
                     }
                 })
         }
@@ -87,5 +95,13 @@ input {
     border-radius: 6px;
     outline: none;
     width: 40%;
+}
+
+.d-none-i {
+    display: block;
+}
+
+.d-n {
+    display: none;
 }
 </style>
