@@ -61,6 +61,7 @@ export default {
 
     data() {
         return {
+            allUsers: [],
             login: '',
             password: '',
             city: '',
@@ -73,19 +74,26 @@ export default {
     },
 
     methods: {
-        putUser() {
-            this.axios.put('http://127.0.0.1:8000/getUsers', {
-                login: this.login,
-                password: this.password,
-                city: this.city,
-                name: this.name,
-                email: this.email,
-                photo: this.photo,
-                company: this.company,
-                website: this.website,
-            }).then((response) => {
-                console.log(response);
-                this.$route.push('/profile');
+        async putUser() {
+            const res = await fetch(this.$store.getters.getApiUsers);
+            const users = await res.json();
+            this.allUsers = users;
+            this.allUsers.push({
+                "login": this.login,
+                "password": this.password,
+                "city": this.city,
+                "name": this.name,
+                "email": this.email,
+                "photo": this.photo,
+                "company": this.company,
+                "website": this.website
+            })
+
+            this.axios.put(this.$store.getters.getApiUsers,
+                this.allUsers
+            ).then((response) => {
+                console.log(response)
+                this.$router.push({ name: 'home' })
             })
         }
     },

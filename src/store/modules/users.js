@@ -1,15 +1,14 @@
 export default {
     actions: {
         async getUsersData(ctx) {
-            const res = await fetch(
-                'http://jsonplaceholder.typicode.com/users'
-            )
+            const res = await fetch('https://json.extendsclass.com/bin/a250bb97adc9')
             const users = await res.json();
             ctx.commit('UPDATE_USERS', users);
         }
     },
     state: {
-        users: []
+        users: [],
+        apiUsers: 'https://json.extendsclass.com/bin/a250bb97adc9'
     },
     mutations: {
         UPDATE_USERS(state, users) {
@@ -23,6 +22,10 @@ export default {
 
         countUsers(state) {
             return state.users.length;
+        },
+
+        getApiUsers(state) {
+            return state.apiUsers;
         }
     },
 }

@@ -5,21 +5,21 @@
         <div class="mt-10 text-center">
             <div class="w-full">
                 <label class="block mb-5">
-                    <input v-model="login" type="text" placeholder="Логин"/>
+                    <input v-model="login" type="text" placeholder="Логин" />
                 </label>
 
                 <label class="block">
-                    <input v-model="password" type="password" placeholder="Пароль"/>
+                    <input v-model="password" type="password" placeholder="Пароль" />
                 </label>
 
-                
+
                 <button @click="authFun" class="outline outline-2 outline-offset-2 outline-indigo-500
                                 cursor-pointer bg-indigo-500 rounded-lg py-1 px-10 text-white 
                                 duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
                     style="position: relative;top: 2rem;">Войти</button>
 
-                <a href="/reg" class="select-none drop-shadow-xl block mt-4"
-                    style="position: relative;top: 2rem;">Еще нет аккаунта?</a>
+                <a href="/reg" class="select-none drop-shadow-xl block mt-4" style="position: relative;top: 2rem;">Еще
+                    нет аккаунта?</a>
             </div>
         </div>
     </LayoutView>
@@ -45,7 +45,7 @@ export default {
 
     methods: {
         authFun() {
-            this.axios.get('https://api.npoint.io/9d126a3d30e113401f4a')
+            this.axios.get(this.$store.getters.getApiUsers)
                 .then((response) => {
                     let users = response.data;
                     let found = false;

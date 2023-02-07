@@ -2,9 +2,12 @@
     <div class="lg:container mx-auto mt-10">
         <div class="row">
             <div class="col-nav rounded-lg p-4 drop-shadow-xl">
-                <button @click="$router.push({ name: 'home' })" class="text-lg px-2 block my-1 text-slate-800">Профиль</button>
-                <button @click="$router.push({ name: 'friends' })" class="text-lg px-2 block my-1 text-slate-800">Все люди</button>
-                <button @click="logout" class="text-lg px-2 block my-1 text-slate-800 cursor-pointer" v-if="sessionName">Выйти</button>
+                <button @click="$router.push({ name: 'home' }).catch(()=>{})"
+                    class="text-lg px-2 block my-1 text-slate-800">Профиль</button>
+                <button @click="$router.push({ name: 'friends' }).catch(()=>{})" class="text-lg px-2 block my-1 text-slate-800">Все
+                    люди</button>
+                <button @click="logout" class="text-lg px-2 block my-1 text-slate-800 cursor-pointer"
+                    v-if="sessionName">Выйти</button>
             </div>
             <div class="col-content rounded-lg p-4 drop-shadow-xl">
                 <slot></slot>
@@ -23,10 +26,10 @@ export default {
         }
     },
 
-    methods: {
+    methods: {  
         logout() {
             localStorage.clear();
-            this.$route.push('/');
+            this.$router.push({ name: 'login' });
         }
     }
 }

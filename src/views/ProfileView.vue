@@ -58,7 +58,7 @@ export default {
 
     methods: {
         getUserData() {
-            this.axios.get('https://api.npoint.io/9d126a3d30e113401f4a')
+            this.axios.get(this.$store.getters.getApiUsers)
                 .then((response) => {
                     let users = response.data;
                     let found = false;

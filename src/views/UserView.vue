@@ -6,9 +6,25 @@
             <div class="flex flex-col place-content-between">
                 <div>
                     <p class="text-2xl mb-1">{{ userData.name }}</p>
-                    <p class="text-base">@{{ userData.username }}</p>
+                    <p class="text-base">@{{ userData.login }}</p>
                     <p class="text-base">Email: {{ userData.email }}</p>
-                    <p class="text-base">Телефон: {{ userData.phone }}</p>
+                    <p class="text-base">Компания: {{ userData.company }}</p>
+                </div>
+
+                <div>
+                    <a href="#ex1" rel="modal:open" class="outline outline-2 outline-offset-2 outline-indigo-500
+                                cursor-pointer bg-indigo-500 rounded-lg py-2 px-4 text-white 
+                                duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
+                        style="position: relative;top: -0.5rem;">Подробнее</a>
+
+                    <div id="ex1" class="modal">
+                        <p class="text-xl mb-2">Имя: {{ userData.name }}</p>
+                        <p class="text-xl mb-2">Логин: @{{ userData.login }}</p>
+                        <p class="text-xl mb-2">Email: {{ userData.email }}</p>
+                        <p class="text-xl mb-2">Компания: {{ userData.company }}</p>
+                        <p class="text-xl mb-2">Город: {{ userData.city }}</p>
+                        <p class="text-xl mb-2">Сайт: {{ userData.website }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,10 +61,14 @@ export default {
 
     methods: {
         getUserData() {
-            this.axios.get("http://jsonplaceholder.typicode.com/users/" + this.$route.params.id)
+            this.axios.get(this.$store.getters.getApiUsers)
                 .then(response => {
-                    this.userData = response.data;
-                    document.title = response.data.name;
+                    for (let i = 0; i < response.data.length; i++) {
+                        if (response.data[i].login == this.$route.params.login) {
+                            this.userData = response.data[i];
+                            document.title = response.data[i].name;
+                        }
+                    }
                 })
         },
 
@@ -58,13 +78,13 @@ export default {
     computed: mapGetters(['allUserPosts']),
 
     mounted() {
-        this.getUserPosts(this.$route.params.id);
+        this.getUserPosts(7);
         this.getUserData();
     },
 
     watch: {
         $route() {
-            this.getUserPosts(this.$route.params.id);
+            this.getUserPosts(7);
             this.getUserData();
         }
     },

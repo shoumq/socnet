@@ -57,7 +57,7 @@ const routes = [
   },
 
   {
-    path: '/user/:id',
+    path: '/user/:login',
     name: 'userPage',
     component: () => import('../views/UserView.vue'),
     beforeEnter: (to, from, next) => {
@@ -65,6 +65,19 @@ const routes = [
         next()
       } else {
         next({ name: 'login' })
+      }
+    }
+  },
+
+  {
+    path: '/test/',
+    name: 'test',
+    component: () => import('../views/test.vue'),
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('login') == 'admin') {
+        next()
+      } else {
+        next({ name: 'home' })
       }
     }
   },
