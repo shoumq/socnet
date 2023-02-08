@@ -5,35 +5,43 @@
         <div class="mt-10 text-center">
             <div class="w-full">
                 <label class="block mb-5">
-                    <input v-model="login" type="text" placeholder="Логин" />
+                    <input v-model="login" type="text" placeholder="Логин"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="password" type="password" placeholder="Пароль" />
+                    <input v-model="password" type="password" placeholder="Пароль"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="name" type="text" placeholder="Имя" />
+                    <input v-model="name" type="text" placeholder="Имя"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="city" type="text" placeholder="Город" />
+                    <input v-model="city" type="text" placeholder="Город"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="email" type="email" placeholder="E-mail" />
+                    <input v-model="email" type="email" placeholder="E-mail"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="photo" type="text" placeholder="Фото" />
+                    <input v-model="photo" type="text" placeholder="Фото"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="company" type="text" placeholder="Компания" />
+                    <input v-model="company" type="text" placeholder="Компания"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <label class="block mb-5">
-                    <input v-model="website" type="text" placeholder="Сайт" />
+                    <input v-model="website" type="text" placeholder="Сайт"
+                        :class="{ 'border-2': notReg, 'border-rose-500': notReg }" />
                 </label>
 
                 <button @click="putUser" type="submit" class="outline outline-2 outline-offset-2 outline-indigo-500
@@ -70,31 +78,36 @@ export default {
             photo: '',
             company: '',
             website: '',
+            notReg: false
         }
     },
 
     methods: {
         async putUser() {
-            const res = await fetch(this.$store.getters.getApiUsers);
-            const users = await res.json();
-            this.allUsers = users;
-            this.allUsers.push({
-                "login": this.login,
-                "password": this.password,
-                "city": this.city,
-                "name": this.name,
-                "email": this.email,
-                "photo": this.photo,
-                "company": this.company,
-                "website": this.website
-            })
+            if (this.login && this.password && this.city && this.name && this.email && this.photo && this.company && this.website) {
+                const res = await fetch(this.$store.getters.getApiUsers);
+                const users = await res.json();
+                this.allUsers = users;
+                this.allUsers.push({
+                    "login": this.login,
+                    "password": this.password,
+                    "city": this.city,
+                    "name": this.name,
+                    "email": this.email,
+                    "photo": this.photo,
+                    "company": this.company,
+                    "website": this.website
+                })
 
-            this.axios.put(this.$store.getters.getApiUsers,
-                this.allUsers
-            ).then((response) => {
-                console.log(response)
-                this.$router.push({ name: 'home' })
-            })
+                this.axios.put(this.$store.getters.getApiUsers,
+                    this.allUsers
+                ).then((response) => {
+                    console.log(response)
+                    this.$router.push({ name: 'home' })
+                })
+            } else {
+                this.notReg = true;
+            }
         }
     },
 

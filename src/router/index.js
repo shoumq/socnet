@@ -9,11 +9,7 @@ const routes = [
     name: 'home',
     component: () => import('../views/ProfileView.vue'),
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem('auth')) {
-        next()
-      } else {
-        next({ name: 'login' })
-      }
+      next({ name: 'userPage', params: { login: localStorage.getItem('login') } })
     }
   },
 

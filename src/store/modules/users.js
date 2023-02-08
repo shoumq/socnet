@@ -8,7 +8,9 @@ export default {
     },
     state: {
         users: [],
-        apiUsers: 'https://json.extendsclass.com/bin/a250bb97adc9'
+        posts: [],
+        apiUsers: 'https://json.extendsclass.com/bin/a250bb97adc9',
+        apiPosts: 'https://json.extendsclass.com/bin/cbe6002d5f66'
     },
     mutations: {
         UPDATE_USERS(state, users) {
@@ -26,6 +28,10 @@ export default {
 
         getApiUsers(state) {
             return state.apiUsers;
+        },
+
+        getApiPosts(state) {
+            return state.apiPosts;
         }
     },
 }

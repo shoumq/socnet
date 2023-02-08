@@ -28,11 +28,21 @@
             </div>
         </div>
 
-        <div class="text-2xl mt-7 mb-6">Записи</div>
+        <div class="text-2xl mt-7 mb-2">Что у Вас нового?</div>
+        <form class="newsForm" v-on:submit.prevent="putNews">
+            <input v-on:input="titleInput" type="text" v-model="title"
+                :class="{ 'border-2': titleBool, 'border-rose-500': titleBool }">
+            <button type="submit" class="outline outline-2 outline-offset-2 outline-indigo-500 text-sm
+                                cursor-pointer bg-indigo-500 rounded px-2 py-1 text-white 
+                                duration-300 hover:bg-indigo-600 select-none drop-shadow-xl"
+                :class="{ 'outline-rose-500': titleBool, 'bg-rose-500': titleBool, 'hover:bg-rose-600': titleBool }">Поделиться</button>
+        </form>
+
+        <div class="text-2xl mt-10 mb-3">Записи</div>
         <div class="flex flex-col">
             <div v-for="(item, index) in allProfilePosts" :key="index" class="mb-5 w-9/12">
                 <p class="text-xl">{{ item.title }}</p>
-                <p class="text-base">{{ item.body }}</p>
+                <p class="text-sm text-inherit">{{ item.date }}</p>
             </div>
         </div>
     </LayoutView>
@@ -52,7 +62,9 @@ export default {
     data() {
         return {
             userData: [],
-            userPosts: []
+            userPosts: [],
+            title: '',
+            titleBool: false,
         }
     },
 
@@ -77,6 +89,36 @@ export default {
                     }
                 })
         },
+        async putNews() {
+            if (this.title) {
+                const res = await fetch(this.$store.getters.getApiPosts);
+                const posts = await res.json();
+                this.allPosts = posts;
+                this.allPosts.push({
+                    "login": localStorage.getItem('login'),
+                    "title": this.title,
+                    "date": Date().split('(')[0].split(' ')[1] + " " +
+                        Date().split('(')[0].split(' ')[2] + " " +
+                        Date().split('(')[0].split(' ')[3] + " " +
+                        Date().split('(')[0].split(' ')[4],
+                })
+
+                this.axios.put(this.$store.getters.getApiPosts,
+                    this.allPosts
+                ).then((response) => {
+                    console.log(response)
+                    window.location.reload();
+                    this.titleBool = ''
+                })
+            } else {
+                this.titleBool = true;
+            }
+        },
+        titleInput() {
+            if (this.title.length >= 1) {
+                this.titleBool = false;
+            }
+        },
         ...mapActions(['getProfilePosts'])
     },
 
@@ -84,8 +126,23 @@ export default {
 
     mounted() {
         this.getUserData();
-        this.getProfilePosts();
+        this.getProfilePosts(localStorage.getItem('login'));
     }
 }
 </script>
 
+<style>
+input {
+    padding: 3px 3px;
+    border: 2px solid #6366f1;
+    border-radius: 6px;
+    outline: none;
+    width: 30%;
+}
+
+.newsForm {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+</style>

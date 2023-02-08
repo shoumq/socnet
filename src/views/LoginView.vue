@@ -75,8 +75,7 @@ export default {
 
                     if (!found) {
                         this.flAuth = true;
-                        this.login = '';
-                        this.password = ''
+                        this.password = '';
                     }
                 })
         }
