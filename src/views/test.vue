@@ -1,6 +1,16 @@
 <template>
     <LayoutView>
-        {{ allUsersTest }}
+        <form v-on:submit.prevent="getUsers">
+            <button type="submit">Получить</button>
+
+            <div class="friend-grid">
+                <div class="friend-grid__item drop-shadow-lg px-4 py-2 outline outline-2 
+            outline-offset-2 outline-indigo-500 rounded" v-for="(item, index) in allUsers" :key="index">
+                    <div class="text-xl">{{ item.name }}</div>
+                    <div class="text-base">@{{ item.login }}</div>
+                </div>
+            </div>
+        </form>
     </LayoutView>
 </template>
 
@@ -12,7 +22,7 @@ export default {
 
     data() {
         return {
-            allUsersTest: []
+            allUsers: []
         }
     },
 
@@ -21,28 +31,13 @@ export default {
     },
 
     methods: {
-        async putPutUsersTest() {
-            const res = await fetch(this.$store.getters.getApiUsers);
-            const users = await res.json();
-            this.allUsersTest = users;
-            this.allUsersTest.push({ "login": "testik", "password": "123456", "city": "Москва", "name": "Андрей", "email": "lae212145@mail.ru", "photo": "-", "company": "SH21P", "website": "my121site.ru" })
-
-            this.axios.put(this.$store.getters.getApiUsers,
-                this.allUsersTest
-            ).then((response) => {
-                console.log(response)
-            })
-        },
-
-        async getAllUsersTest() {
-            const res = await fetch(this.$store.getters.getApiUsers);
-            const users = await res.json();
-            this.allUsersTest = users;
-        },
-    },
-
-    mounted() {
-        this.getAllUsersTest();
+        getUsers() {
+            // http://socnet/src/api/test.php
+            this.axios.get('/testapi')
+                .then((response) => {
+                    this.allUsers = response.data;
+                })
+        }
     }
 }
 </script>
